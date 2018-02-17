@@ -1,40 +1,40 @@
 ﻿using UnityEngine.UI;
 using System.Diagnostics;
 using UnityEngine;
+using Debug = UnityEngine.Debug;
 
 public class Main : MonoBehaviour {
 
     public static Stopwatch timer = new Stopwatch();
     public AudioSource BGMusic;
-    public static bool execute;
-    public static string elapsed;
-    public static int check;
+    private static bool execute;
+    private string elapsed;
+    private int check;
+    private Text Stopwatch;
 
-    void Start()
+    private void Awake()
     {
-        execute = true;
         timer.Start();
+        execute = true;
     }
-	
-	void FixedUpdate()
+
+    void FixedUpdate()
     {
+        
         if (execute == true)
         {
             DoStuff();
             OtherStuff();
         }
-
     }
 
     public void DoStuff()
     {
-        Text Stopwatch = this.GetComponent<Text>();
-
         elapsed = timer.Elapsed.Duration().ToString().Substring(0, 11);
-
+        
         PlayerPrefs.SetString("savedTime", elapsed);
 
-        
+        Stopwatch = this.GetComponent<Text>();
 
         Stopwatch.text = PlayerPrefs.GetString("savedTime");
 
@@ -51,63 +51,60 @@ public class Main : MonoBehaviour {
         check = (int) timer.ElapsedMilliseconds;
         PlayerPrefs.SetInt("theTime", check);
     }
-
-    public static void SaveData()
-    {
-
-        execute = false;
-        elapsed = null;
-        timer.Reset();
-
-        if (PlayerPrefs.GetInt("ReferenceNormal") > PlayerPrefs.GetInt("theTime"))
-        {
-            PlayerPrefs.SetInt("ReferenceNormal", PlayerPrefs.GetInt("theTime"));
-
-            // Normal Mode
-            if (UIControl.difficulty.Equals(2))
-            {
-                PlayerPrefs.SetString("BestTimeNormal", PlayerPrefs.GetString("savedTime"));
-            }
-            
-        }
-        else
-        {
-            if (PlayerPrefs.GetInt("ReferenceNormal") <= 0)
-            {
-                PlayerPrefs.SetInt("ReferenceNormal", 999999999);
-            }
-            
-        }
     
-
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-    if (PlayerPrefs.GetInt("ReferenceHard") > PlayerPrefs.GetInt("theTime"))
-        {
-
-            PlayerPrefs.SetInt("ReferenceHard", PlayerPrefs.GetInt("theTime"));
-
-            // Normal Mode
-            if (UIControl.difficulty.Equals(3))
-            {
-                PlayerPrefs.SetString("BestTimeHard", PlayerPrefs.GetString("savedTime"));
-            }
-            
-        }
-        else
-        {
-            if (PlayerPrefs.GetInt("ReferenceHard") <= 0)
-            {
-                PlayerPrefs.SetInt("ReferenceHard", 999999999);
-            }
-            
-        }
-
-
+    public void StopTimer()
+    {
+        execute = false;
+        timer.Stop();
+        timer.Reset();
     }
 
-    public static void Print(string thing)
+    public void SaveData()
     {
-        UnityEngine.Debug.Log(thing);
+        int newTime = PlayerPrefs.GetInt("theTime");
+        Debug.Log(PlayerPrefs.GetInt("ReferenceNormal"));
+
+        // Normal Mode
+        if (UIControl.difficulty.Equals(2))
+        {
+            if (PlayerPrefs.GetInt("ReferenceNormal") > newTime)
+            {
+                PlayerPrefs.SetInt("ReferenceNormal", newTime);           
+
+                PlayerPrefs.SetString("BestTimeNormal", PlayerPrefs.GetString("savedTime"));
+            }
+            else
+            {
+
+                if (PlayerPrefs.GetInt("ReferenceNormal") == 0)
+                {
+                    PlayerPrefs.SetInt("ReferenceNormal", newTime);
+                    PlayerPrefs.SetString("BestTimeNormal", PlayerPrefs.GetString("savedTime"));
+                }
+            }
+        }
+
+        ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+        // Hard Mode
+        if (UIControl.difficulty.Equals(3))
+        {
+            if (PlayerPrefs.GetInt("ReferenceHard") > newTime)
+            {
+                PlayerPrefs.SetInt("ReferenceHard", newTime);
+                
+                PlayerPrefs.SetString("BestTimeHard", PlayerPrefs.GetString("savedTime"));               
+
+            }
+            else
+            {
+                if (PlayerPrefs.GetInt("ReferenceHard") == 0) {
+
+                    PlayerPrefs.SetInt("ReferenceHard", newTime);
+                    PlayerPrefs.SetString("BestTimeHard", PlayerPrefs.GetString("savedTime"));
+                }                    
+            }
+        }
+
     }
 }

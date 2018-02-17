@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using UnityEngine.UI;
+﻿using UnityEngine.UI;
 using UnityEngine;
 
 public class ScoreSetters : MonoBehaviour {
@@ -17,7 +16,5 @@ public class ScoreSetters : MonoBehaviour {
         //easy.text = "Best Score: " + easy1;
         normal.text = "Best Score: " + normal1;
         hard.text = "Best Score: " + hard1;
-    }
-
-
+    }    
 }

@@ -395,7 +395,6 @@
     <Compile Include="Assets\Scripts\Main.cs" />
     <Compile Include="Assets\Scripts\Movement.cs" />
     <Compile Include="Assets\Scripts\Pig.cs" />
-    <Compile Include="Assets\Scripts\RegGen.cs" />
     <Compile Include="Assets\Scripts\ScoreSetters.cs" />
     <Compile Include="Assets\Scripts\TextPulse.cs" />
     <Compile Include="Assets\Scripts\UIControl.cs" />

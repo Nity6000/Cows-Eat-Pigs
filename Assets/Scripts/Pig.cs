@@ -63,14 +63,26 @@ public class Pig : MonoBehaviour
 
     public void Explode()
     {
-        CowObject.gameObject.GetComponent<SpriteRenderer>().sprite = Explosion;
-        ExplosionSound.Play();
-        Main.timer.Stop();
-        Music.volume = 0.15f;
-        Destroy(gameObject);
-        move = false;
-        GameOver.SetActive(true);
-        Main.SaveData();
+        if (CowObject.gameObject.GetComponent<SpriteRenderer>().sprite != Explosion)
+        {
+            CowObject.gameObject.GetComponent<SpriteRenderer>().sprite = Explosion;
+            ExplosionSound.Play();
+            foreach (Transform child in CowObject.transform) {
+                GameObject.Destroy(child.gameObject);
+            }
+            Music.volume = 0.15f;
+            Destroy(gameObject);
+            move = false;
+            GameOver.SetActive(true);
+            Main data = gameObject.AddComponent<Main>();
+            data.StopTimer();
+            data.SaveData();
+        }
+        else
+        {
+            
+        }
+
     }
 
     void Update()

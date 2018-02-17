@@ -11,16 +11,14 @@ public class TextPulse : MonoBehaviour
     private float currentRatio = 1;
 
     private Text text;
-    private float originalFontSize;
 
-    private Coroutine routine;
     private bool keepGoing = true;
 
     void Awake()
     {
         this.text = this.gameObject.GetComponent<Text>();
 
-        this.routine = StartCoroutine(this.Pulse());
+        StartCoroutine(this.Pulse());
     }
 
     IEnumerator Pulse()
